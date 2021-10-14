@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<h1>個人ページ</h1>
-		<table>
+		<h1>User Page</h1>
+		<table class="table table-primary table-sm">
 			<th>id</th>
 			<th>name</th>
 			<th>age</th>
@@ -33,7 +33,7 @@ export default {
 			userDoc: doc(db, "users", this.$route.params.id),
 		};
 	},
-	async beforeCreate() {
+	async mounted() {
 		const userData = await getDoc(doc(db, "users", this.$route.params.id));
 		const user = userData.data();
 		this.name = user.name;
@@ -57,3 +57,10 @@ export default {
 	},
 };
 </script>
+<style scoped>
+h1 {
+	font-family: Menlo, Monaco, "Courier New", monospace;
+	text-decoration: underline wavy blue;
+	text-decoration-skip-ink: none;
+}
+</style>

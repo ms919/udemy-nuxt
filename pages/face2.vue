@@ -1,14 +1,5 @@
 <template>
 	<div id="app">
-		<div class="tiktok-wrapper">
-			<blockquote
-				class="tiktok-embed"
-				cite="https://www.tiktok.com/@kostvjolyx/video/6994978774966095110"
-				data-video-id="6994978774966095110"
-			>
-				<section></section>
-			</blockquote>
-		</div>
 		<!-- video の上に canvas をオーバーレイするための div 要素 -->
 		<div id="container">
 			<!-- カメラ映像を流す video -->
@@ -22,20 +13,9 @@
 	</div>
 </template>
 <script>
+// const tf = require("@tensorflow/tfjs-node");
+// const faceapi = require("@vladmandic/face-api");
 export default {
-	head() {
-		return {
-			script: [
-				{ src: "/js/face-api.min.js" },
-				{ src: "https://www.tiktok.com/embed.js" },
-				{
-					src:
-						"https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js",
-				},
-				{ src: "https://unpkg.com/vue-chartjs/dist/vue-chartjs.min.js" },
-			],
-		};
-	},
 	methods: {
 		onPlay() {
 			const video = document.getElementById("video"); // video 要素を取得
@@ -45,7 +25,7 @@ export default {
 			setInterval(async () => {
 				// ウェブカメラの映像から顔データを取得
 				const detections = await faceapi
-					.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+					.detectSingleFace(video, new faceapi.TinyFaceDetectorOptions())
 					.withFaceLandmarks()
 					.withFaceExpressions();
 				// console.log(detections[0].expressions);
@@ -70,9 +50,9 @@ export default {
 	mounted() {
 		// 顔モデルをロード
 		Promise.all([
-			faceapi.nets.tinyFaceDetector.loadFromUri("/js/weights"),
-			faceapi.nets.faceLandmark68Net.loadFromUri("/js/weights"),
-			faceapi.nets.faceExpressionNet.loadFromUri("/js/weights"),
+			faceapi.nets.tinyFaceDetector.loadFromUri("/models"),
+			faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+			faceapi.nets.faceExpressionNet.loadFromUri("/models"),
 		]).then(() => {
 			// ウェブカメラへアクセス
 			navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
@@ -88,13 +68,6 @@ export default {
 #app {
 	/* コンテナ用の div について */
 	display: flex;
-}
-.tiktok-wrapper {
-	width: 20%;
-	/* position: relative;
-	padding-top: 177%; */
-	/* aspect-ratio: 9/16; */
-	background-color: blue;
 }
 #container {
 	position: relative; /* 座標指定を相対値指定にする */
@@ -112,28 +85,8 @@ export default {
 	left: 0; /* X座標を0に */
 	top: 0; /* Y座標を0に */
 }
-blockquote {
-	/* margin: 3rem; */
-	/* position: absolute;
-	top: 0;
-	right: 0; */
-	width: 50%;
-	height: 59vh;
-}
 #emotion_str {
 	display: block;
 	margin-top: 20rem;
-}
-@media screen and (max-width: 425px) {
-	#app {
-		display: block;
-	}
-	.tiktok-wrapper {
-		width: 90%;
-	}
-	blockquote {
-		width: 100%;
-		height: 79vh;
-	}
 }
 </style>

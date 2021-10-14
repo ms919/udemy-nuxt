@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<header class="header mb-auto">
+		<header class="sticky-top">
 			<template v-if="isAuthenticate">
 				<router-link to="/">top</router-link>
 				<router-link to="/users">user</router-link>
@@ -11,7 +11,7 @@
 			</template>
 		</header>
 		<nuxt />
-		<footer class="footer bt-auto">footer</footer>
+		<footer class="text-center fixed-bottom bg-dark">footer</footer>
 	</div>
 </template>
 <script>
