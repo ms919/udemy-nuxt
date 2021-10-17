@@ -1,5 +1,6 @@
 <template>
 	<div class="tiktok-wrapper">
+		<button href="#" @click="play">click</button>
 		<blockquote
 			class="tiktok-embed"
 			cite="https://www.tiktok.com/@kostvjolyx/video/6994978774966095110"
@@ -16,38 +17,22 @@ export default {
 			script: [{ src: "https://www.tiktok.com/embed.js" }],
 		};
 	},
+	methods: {
+		play() {
+			const tiktok = document.getElementsByClassName("tiktok-embed")[0]
+				.firstChild;
+      console.log(tiktok);
+			const embed_video = tiktok.contentWindow.document.querySelector(
+				"._embed_player_video-wrapper"
+			);
+			console.log(embed_video);
+		},
+	},
 };
 </script>
 <style scoped>
 .tiktok-wrapper {
-	width: 20%;
-	/* position: relative;
-	padding-top: 177%; */
-	aspect-ratio: 9/16;
-	background-color: blue;
-}
-blockquote {
-	/* margin: 3rem; */
-	/* position: absolute;
-	top: 0;
-	right: 0; */
-	width: 100%;
-	height: 100%;
-}
-#emotion_str {
-	display: block;
-	margin-top: 20rem;
-}
-@media screen and (max-width: 425px) {
-	#app {
-		display: block;
-	}
-	.tiktok-wrapper {
-		width: 90%;
-	}
-	blockquote {
-		width: 100%;
-		height: 79vh;
-	}
+	display: flex;
+	flex-wrap: wrap;
 }
 </style>
